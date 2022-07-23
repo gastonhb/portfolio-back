@@ -1,1 +1,1 @@
-web: java -Dserver.port=8080 -jar target/back-0.0.1.jar
+web: java -Dserver.port=5000 -jar target/back-0.0.1.jar
