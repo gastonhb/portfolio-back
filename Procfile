@@ -1,1 +1,1 @@
-web: java -Dserver.port=8000 -jar target/back-0.0.1-SNAPSHOT.jar
+worker: java -Dserver.port=$PORT -jar target/back-0.0.1.jar
