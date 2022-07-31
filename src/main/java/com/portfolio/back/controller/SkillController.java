@@ -8,6 +8,8 @@ import com.portfolio.back.service.IPersonService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,14 +28,15 @@ public class SkillController {
     private IPersonService personService;
     
     @PostMapping ("/skills")
-    public void create (@RequestBody SkillDTO skillDTO){
+    public ResponseEntity<Skill> create (@RequestBody SkillDTO skillDTO){
         Person person = personService.getById(skillDTO.getPersonId());
         Skill skill = new Skill(
             skillDTO.getName(),
             skillDTO.getType(),
             skillDTO.getGrade(),
             person);
-        service.create(skill);
+        Skill newSkill = service.create(skill);
+        return new ResponseEntity<>(newSkill,HttpStatus.CREATED);
     }
     
     @GetMapping ("/skills")
@@ -44,17 +47,19 @@ public class SkillController {
     
     @GetMapping ("/skills/{id}")
     @ResponseBody
-    public Skill getById(@PathVariable UUID id){
-        return service.getById(id);
+    public ResponseEntity<Skill> getById(@PathVariable UUID id){
+        Skill skill = service.getById(id);
+        return new ResponseEntity<>(skill,HttpStatus.OK);
     }
     
     @DeleteMapping ("/skills/{id}")
-    public void delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
     
     @PutMapping ("/skills/{id}")
-    public void update(@PathVariable UUID id, @RequestBody SkillDTO skillDTO){
+    public ResponseEntity<Skill> update(@PathVariable UUID id, @RequestBody SkillDTO skillDTO){
         Person person = personService.getById(skillDTO.getPersonId());
         Skill skill = new Skill(
             id,
@@ -62,6 +67,7 @@ public class SkillController {
             skillDTO.getType(),
             skillDTO.getGrade(),
             person);
-        service.update(skill);
+        Skill updatedSkill = service.update(skill);
+        return new ResponseEntity<>(updatedSkill, HttpStatus.OK);
     }
 }

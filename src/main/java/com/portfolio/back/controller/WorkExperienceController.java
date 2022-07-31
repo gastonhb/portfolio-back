@@ -8,6 +8,8 @@ import com.portfolio.back.service.IWorkExperienceService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,7 @@ public class WorkExperienceController {
     private IPersonService personService;
     
     @PostMapping ("/work-experiences")
-    public void create (@RequestBody WorkExperienceDTO workExperienceDTO){
+    public ResponseEntity<WorkExperience> create (@RequestBody WorkExperienceDTO workExperienceDTO){
         Person person = personService.getById(workExperienceDTO.getPersonId());
         WorkExperience workExperience = new WorkExperience(
             workExperienceDTO.getTitle(),
@@ -36,7 +38,8 @@ public class WorkExperienceController {
             workExperienceDTO.getWorkTime(),
             workExperienceDTO.getLocation(),
             person);
-        service.create(workExperience);
+        WorkExperience newWorkExperience = service.create(workExperience);
+        return new ResponseEntity<>(newWorkExperience,HttpStatus.CREATED);
     }
     
     @GetMapping ("/work-experiences")
@@ -47,17 +50,19 @@ public class WorkExperienceController {
     
     @GetMapping ("/work-experiences/{id}")
     @ResponseBody
-    public WorkExperience getById(@PathVariable UUID id){
-        return service.getById(id);
+    public ResponseEntity<WorkExperience> getById(@PathVariable UUID id){
+        WorkExperience workExperience = service.getById(id);
+        return new ResponseEntity<>(workExperience,HttpStatus.OK);
     }
     
     @DeleteMapping ("/work-experiences/{id}")
-    public void delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
     
     @PutMapping ("/work-experiences/{id}")
-    public void update(@PathVariable UUID id, @RequestBody WorkExperienceDTO workExperienceDTO){
+    public ResponseEntity<WorkExperience> update(@PathVariable UUID id, @RequestBody WorkExperienceDTO workExperienceDTO){
         Person person = personService.getById(workExperienceDTO.getPersonId());
         WorkExperience workExperience = new WorkExperience(
             id,
@@ -68,6 +73,7 @@ public class WorkExperienceController {
             workExperienceDTO.getWorkTime(),
             workExperienceDTO.getLocation(),
             person);
-        service.update(workExperience);
+        WorkExperience updatedWorkExperience = service.update(workExperience);
+        return new ResponseEntity<>(updatedWorkExperience, HttpStatus.OK);
     }
 }

@@ -8,6 +8,8 @@ import com.portfolio.back.service.IProjectService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,7 @@ public class ProjectController {
     private IPersonService personService;
     
     @PostMapping ("/projects")
-    public void create (@RequestBody ProjectDTO projectDTO){
+    public ResponseEntity<Project> create (@RequestBody ProjectDTO projectDTO){
         Person person = personService.getById(projectDTO.getPersonId());
         Project project = new Project(
             projectDTO.getName(),
@@ -34,7 +36,8 @@ public class ProjectController {
             projectDTO.getRealizationDate(),
             projectDTO.getLink(),
             person);
-        service.create(project);
+        Project newProject = service.create(project);
+        return new ResponseEntity<>(newProject,HttpStatus.CREATED);
     }
     
     @GetMapping ("/projects")
@@ -45,17 +48,19 @@ public class ProjectController {
     
     @GetMapping ("/projects/{id}")
     @ResponseBody
-    public Project getById(@PathVariable UUID id){
-        return service.getById(id);
+    public ResponseEntity<Project> getById(@PathVariable UUID id){
+        Project project = service.getById(id);
+        return new ResponseEntity<>(project,HttpStatus.OK);
     }
     
     @DeleteMapping ("/projects/{id}")
-    public void delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
     
     @PutMapping ("/projects/{id}")
-    public void update(@PathVariable UUID id, @RequestBody ProjectDTO projectDTO){
+    public ResponseEntity<Project> update(@PathVariable UUID id, @RequestBody ProjectDTO projectDTO){
         Person person = personService.getById(projectDTO.getPersonId());
         Project project = new Project(
             id,
@@ -64,6 +69,7 @@ public class ProjectController {
             projectDTO.getRealizationDate(),
             projectDTO.getLink(),
             person);
-        service.update(project);
+        Project updatedProject = service.update(project);
+        return new ResponseEntity<>(updatedProject, HttpStatus.OK);
     }
 }

@@ -19,7 +19,7 @@ public class Address implements Serializable {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
-    private String calle;
+    private String street;
     private Integer number;
     private String locality;
     private String province;
@@ -31,16 +31,16 @@ public class Address implements Serializable {
         this.id = id;
     }
 
-    public Address(UUID id, String calle, Integer number, String locality, String province) {
+    public Address(UUID id, String street, Integer number, String locality, String province) {
         this.id = id;
-        this.calle = calle;
+        this.street = street;
         this.number = number;
         this.locality = locality;
         this.province = province;
     }
 
-    public Address(String calle, Integer number, String locality, String province) {
-        this.calle = calle;
+    public Address(String street, Integer number, String locality, String province) {
+        this.street = street;
         this.number = number;
         this.locality = locality;
         this.province = province;

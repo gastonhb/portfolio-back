@@ -2,12 +2,18 @@ package com.portfolio.back.controller;
 
 import com.portfolio.back.dto.UserDTO;
 import com.portfolio.back.model.Person;
+import com.portfolio.back.model.Role;
 import com.portfolio.back.model.User;
 import com.portfolio.back.service.IPersonService;
+import com.portfolio.back.service.IRoleService;
 import com.portfolio.back.service.IUserService;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,15 +30,38 @@ public class UserController {
     private IUserService service;
     @Autowired
     private IPersonService personService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private IRoleService roleService;
     
-    @PostMapping ("/users")
-    public void create (@RequestBody UserDTO userDTO){
+    @PostMapping("/users")
+    public ResponseEntity<?> create(@RequestBody UserDTO userDTO){
+        if(service.existsByUsername(userDTO.getUsername())) {
+            return new ResponseEntity<>("This username already exist.",
+                HttpStatus.BAD_REQUEST);
+        }
+
+        if(service.existsByEmail(userDTO.getEmail())) {
+            return new ResponseEntity<>("This email already exist",
+                HttpStatus.BAD_REQUEST);
+        }
+        
         Person person = personService.getById(userDTO.getPersonId());
-        User user = new User(
-            userDTO.getUsername(),
-            userDTO.getPassword(),
-            person);
+        User user = new User();
+        
+        user.setPerson(person);
+        user.setUsername(userDTO.getUsername());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        
+
+        Role roles = roleService.findByName("user").get();
+        user.setRoles(Collections.singleton(roles));
+
         service.create(user);
+        return new ResponseEntity<>("User successfully registered",
+            HttpStatus.OK);
     }
     
     @GetMapping ("/users")

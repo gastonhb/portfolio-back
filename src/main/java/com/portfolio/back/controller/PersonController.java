@@ -8,6 +8,8 @@ import com.portfolio.back.service.IPersonService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,7 @@ public class PersonController {
     private IAddressService addressService;
     
     @PostMapping ("/persons")
-    public void create (@RequestBody PersonDTO personDTO){
+    public ResponseEntity<Person> create (@RequestBody PersonDTO personDTO){
         Address address = addressService.getById(personDTO.getAddressId());
         Person person = new Person(
             personDTO.getName(),
@@ -35,7 +37,8 @@ public class PersonController {
             personDTO.getAbstracts(),
             address
         );
-        service.create(person);
+        Person newPerson = service.create(person);
+        return new ResponseEntity<>(newPerson,HttpStatus.CREATED);
     }
     
     @GetMapping ("/persons")
@@ -46,17 +49,19 @@ public class PersonController {
     
     @GetMapping ("/persons/{id}")
     @ResponseBody
-    public Person getById(@PathVariable UUID id){
-        return service.getById(id);
+    public ResponseEntity<Person> getById(@PathVariable UUID id){
+        Person person = service.getById(id);
+        return new ResponseEntity<>(person,HttpStatus.OK);
     }
     
     @DeleteMapping ("/persons/{id}")
-    public void delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
     
     @PutMapping ("/persons/{id}")
-    public void update(@PathVariable UUID id, @RequestBody PersonDTO personDTO){
+    public ResponseEntity<Person> update(@PathVariable UUID id, @RequestBody PersonDTO personDTO){
         Address address = addressService.getById(personDTO.getAddressId());
         Person person = new Person(
             id,
@@ -66,6 +71,7 @@ public class PersonController {
             personDTO.getAbstracts(),
             address
         );
-        service.update(person);
+        Person updatedPerson = service.update(person);
+        return new ResponseEntity<>(updatedPerson, HttpStatus.OK);
     }
 }

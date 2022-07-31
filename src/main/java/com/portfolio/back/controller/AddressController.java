@@ -5,6 +5,8 @@ import com.portfolio.back.service.IAddressService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +23,9 @@ public class AddressController {
     private IAddressService service;
     
     @PostMapping ("/addresses")
-    public void create (@RequestBody Address address){
-        service.create(address);
+    public ResponseEntity<Address> create (@RequestBody Address address){
+        Address newAddress = service.create(address);
+        return new ResponseEntity<>(newAddress,HttpStatus.CREATED);
     }
     
     @GetMapping ("/addresses")
@@ -33,18 +36,21 @@ public class AddressController {
     
     @GetMapping ("/addresses/{id}")
     @ResponseBody
-    public Address getById(@PathVariable UUID id){
-        return service.getById(id);
+    public ResponseEntity<Address> getById(@PathVariable UUID id){
+        Address address = service.getById(id);
+        return new ResponseEntity<>(address,HttpStatus.OK);
     }
     
     @DeleteMapping ("/addresses/{id}")
-    public void delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
     
     @PutMapping ("/addresses/{id}")
-    public void update(@PathVariable UUID id, @RequestBody Address address){
+    public ResponseEntity<Address> update(@PathVariable UUID id, @RequestBody Address address){
         address.setId(id);
-        service.update(address);
+        Address updatedAddress = service.update(address);
+        return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
     }
 }

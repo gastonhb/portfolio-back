@@ -8,6 +8,8 @@ import com.portfolio.back.service.IPersonService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,7 @@ public class EducationController {
     private IPersonService personService;
     
     @PostMapping ("/education")
-    public void create (@RequestBody EducationDTO educationDTO){
+    public ResponseEntity<Education> create (@RequestBody EducationDTO educationDTO){
         Person person = personService.getById(educationDTO.getPersonId());
         Education education = new Education(
             educationDTO.getTitle(),
@@ -34,7 +36,8 @@ public class EducationController {
             educationDTO.getStartDate(),
             educationDTO.getEndDate(),
             person);
-        service.create(education);
+        Education newEducation = service.create(education);
+        return new ResponseEntity<>(newEducation,HttpStatus.CREATED);
     }
     
     @GetMapping ("/education")
@@ -45,17 +48,19 @@ public class EducationController {
     
     @GetMapping ("/education/{id}")
     @ResponseBody
-    public Education getById(@PathVariable UUID id){
-        return service.getById(id);
+    public ResponseEntity<Education> getById(@PathVariable UUID id){
+        Education education = service.getById(id);
+        return new ResponseEntity<>(education,HttpStatus.OK);
     }
     
     @DeleteMapping ("/education/{id}")
-    public void delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
     
     @PutMapping ("/education/{id}")
-    public void update(@PathVariable UUID id, @RequestBody EducationDTO educationDTO){
+    public ResponseEntity<Education> update(@PathVariable UUID id, @RequestBody EducationDTO educationDTO){
         Person person = personService.getById(educationDTO.getPersonId());
         Education education = new Education(
             id,
@@ -64,6 +69,7 @@ public class EducationController {
             educationDTO.getStartDate(),
             educationDTO.getEndDate(),
             person);
-        service.update(education);
+        Education updatedEducation = service.update(education);
+        return new ResponseEntity<>(updatedEducation, HttpStatus.OK);
     }
 }
