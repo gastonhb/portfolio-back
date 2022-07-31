@@ -116,6 +116,22 @@
 	  <artifactId>jjwt</artifactId>
           <version>0.9.1</version>
 	 </dependency>
+	 <dependency>
+	  <groupId>org.springframework.security</groupId>
+	  <artifactId>spring-security-ldap</artifactId>
+	  <version>4.0.3.RELEASE</version>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.springframework.security</groupId>
+	  <artifactId>spring-security-openid</artifactId>
+	  <version>5.7.2</version>
+	  <type>pom.sha512</type>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.springframework.security</groupId>
+	  <artifactId>spring-security-core</artifactId>
+	  <version>5.7.2</version>
+	 </dependency>
 	</dependencies>
 
 	<build>
