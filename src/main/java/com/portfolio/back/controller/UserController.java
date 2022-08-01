@@ -2,12 +2,9 @@ package com.portfolio.back.controller;
 
 import com.portfolio.back.dto.UserDTO;
 import com.portfolio.back.model.Person;
-import com.portfolio.back.model.Role;
 import com.portfolio.back.model.User;
 import com.portfolio.back.service.IPersonService;
-import com.portfolio.back.service.IRoleService;
 import com.portfolio.back.service.IUserService;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +29,6 @@ public class UserController {
     private IPersonService personService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private IRoleService roleService;
     
     @PostMapping("/users")
     public ResponseEntity<?> create(@RequestBody UserDTO userDTO){
@@ -54,10 +49,6 @@ public class UserController {
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        
-
-        Role roles = roleService.findByName("user").get();
-        user.setRoles(Collections.singleton(roles));
 
         service.create(user);
         return new ResponseEntity<>("User successfully registered",
