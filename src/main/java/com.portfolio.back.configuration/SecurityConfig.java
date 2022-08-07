@@ -63,8 +63,8 @@ public class SecurityConfig {
 //        configuration.addAllowedHeader("Access-Control-Allow-Headers");
 //        configuration.addAllowedHeader("Authorization, x-xsrf-token, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 //        configuration.addAllowedHeader("Access-Control-Allow-Methods");
-        configuration.addAllowedHeader("*");
-        configuration.addExposedHeader("*");
+        configuration.addAllowedHeader("Access-Control-Allow-Origin");
+        configuration.addExposedHeader("Access-Control-Allow-Origin");
                 //addExposedHeaders("*");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
