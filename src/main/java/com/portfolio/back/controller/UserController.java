@@ -1,6 +1,7 @@
 package com.portfolio.back.controller;
 
 import com.portfolio.back.dto.UserDTO;
+import com.portfolio.back.dto.UserResponse;
 import com.portfolio.back.model.Person;
 import com.portfolio.back.model.User;
 import com.portfolio.back.service.IPersonService;
@@ -42,7 +43,15 @@ public class UserController {
                 HttpStatus.BAD_REQUEST);
         }
         
-        Person person = personService.getById(userDTO.getPersonId());
+        UUID personId = userDTO.getPersonId();
+        Person person;
+        if(personId == null){
+            person = new Person (userDTO.getName(), userDTO.getLastname());
+            person = personService.create(person);
+        } else {
+            person = personService.getById(userDTO.getPersonId());
+        }
+        
         User user = new User();
         
         user.setPerson(person);
@@ -63,8 +72,8 @@ public class UserController {
     
     @GetMapping ("/users/{id}")
     @ResponseBody
-    public User getById(@PathVariable UUID id){
-        return service.getById(id);
+    public UserResponse getById(@PathVariable UUID id){
+        return service.getReferenceById(id);
     }
     
     @DeleteMapping ("/users/{id}")

@@ -15,6 +15,7 @@ import com.portfolio.back.security.JwtTokenUtil;
 import org.springframework.http.*;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 @RestController
@@ -27,6 +28,7 @@ public class AuthController {
     @Autowired 
     JwtTokenUtil jwtUtil;
     
+    //@CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {

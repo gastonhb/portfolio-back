@@ -48,5 +48,10 @@ public class Person implements Serializable {
         this.abstracts = abstracts;
         this.address = address;
     }
+
+    public Person(String name, String lastname) {
+        this.name = name;
+        this.lastname = lastname;
+    }
     
 }

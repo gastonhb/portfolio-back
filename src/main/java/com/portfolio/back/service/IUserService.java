@@ -1,5 +1,6 @@
 package com.portfolio.back.service;
 
+import com.portfolio.back.dto.UserResponse;
 import com.portfolio.back.model.User;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public interface IUserService {
     
     public void delete (UUID id);
     
-    public User getById (UUID id);
+    public UserResponse getReferenceById (UUID id);
     
     public User update (User user);
     
