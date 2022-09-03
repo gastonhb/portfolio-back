@@ -16,10 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter @Setter
 @Entity
-//@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
-//		@UniqueConstraint(columnNames = { "email" }) })
 public class User implements UserDetails {
-    
+    // Revisar condiciones
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")

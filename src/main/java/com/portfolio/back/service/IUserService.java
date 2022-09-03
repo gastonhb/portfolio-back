@@ -16,6 +16,8 @@ public interface IUserService {
     
     public UserResponse getReferenceById (UUID id);
     
+    public UserResponse getByUsername (String username);
+    
     public User update (User user);
     
     public Optional<User> findByUsername(String username);

@@ -1,9 +1,7 @@
 package com.portfolio.back.controller;
 
 import com.portfolio.back.dto.PersonDTO;
-import com.portfolio.back.model.Address;
 import com.portfolio.back.model.Person;
-import com.portfolio.back.service.IAddressService;
 import com.portfolio.back.service.IPersonService;
 import java.util.List;
 import java.util.UUID;
@@ -24,18 +22,16 @@ public class PersonController {
     
     @Autowired
     private IPersonService service;
-    @Autowired
-    private IAddressService addressService;
     
     @PostMapping ("/persons")
     public ResponseEntity<Person> create (@RequestBody PersonDTO personDTO){
-        Address address = addressService.getById(personDTO.getAddressId());
         Person person = new Person(
             personDTO.getName(),
             personDTO.getLastname(),
             personDTO.getTitle(),
             personDTO.getAbstracts(),
-            address
+            personDTO.getUrlImage(),
+            personDTO.getUrlCoverPhoto()
         );
         Person newPerson = service.create(person);
         return new ResponseEntity<>(newPerson,HttpStatus.CREATED);
@@ -62,14 +58,14 @@ public class PersonController {
     
     @PutMapping ("/persons/{id}")
     public ResponseEntity<Person> update(@PathVariable UUID id, @RequestBody PersonDTO personDTO){
-        Address address = addressService.getById(personDTO.getAddressId());
         Person person = new Person(
             id,
             personDTO.getName(),
             personDTO.getLastname(),
             personDTO.getTitle(),
             personDTO.getAbstracts(),
-            address
+            personDTO.getUrlImage(),
+            personDTO.getUrlCoverPhoto()
         );
         Person updatedPerson = service.update(person);
         return new ResponseEntity<>(updatedPerson, HttpStatus.OK);

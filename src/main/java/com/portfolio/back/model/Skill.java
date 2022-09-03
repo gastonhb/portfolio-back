@@ -16,6 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 public class Skill implements Serializable{
     
+    // Revisar condiciones
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")

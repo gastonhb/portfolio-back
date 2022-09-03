@@ -20,7 +20,6 @@ public class UserService implements IUserService{
     public List<User> list() {
         return repository.findAll();
     }
-    
 
     @Override
     public User create(User user) {
@@ -63,5 +62,13 @@ public class UserService implements IUserService{
     @Override
     public Boolean existsByEmail(String email) {
          return repository.existsByEmail(email);
+    }
+    
+    @Override
+    public UserResponse getByUsername(String username) {
+        User user = repository.findByUsername(username)
+            .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+        return new UserResponse(user.getId(), user.getUsername(),
+                user.getEmail(), user.getPerson());
     }
 }

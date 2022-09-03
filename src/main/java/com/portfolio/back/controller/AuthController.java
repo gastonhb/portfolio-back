@@ -2,6 +2,7 @@ package com.portfolio.back.controller;
 
 import com.portfolio.back.dto.AuthRequest;
 import com.portfolio.back.dto.AuthResponse;
+import com.portfolio.back.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +29,6 @@ public class AuthController {
     @Autowired 
     JwtTokenUtil jwtUtil;
     
-    //@CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
@@ -42,7 +42,8 @@ public class AuthController {
             User user = (User) authentication.getPrincipal();
 
             String accessToken = jwtUtil.generateAccessToken(user);
-            AuthResponse response = new AuthResponse(user.getUsername(), accessToken);
+            Person person = user.getPerson();
+            AuthResponse response = new AuthResponse(user.getUsername(), accessToken, person.getId());
             
             return new ResponseEntity<>(response,HttpStatus.OK);
              

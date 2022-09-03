@@ -29,6 +29,9 @@ public class SkillController {
     
     @PostMapping ("/skills")
     public ResponseEntity<Skill> create (@RequestBody SkillDTO skillDTO){
+        if(skillDTO.getPersonId() == null){
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Person person = personService.getById(skillDTO.getPersonId());
         Skill skill = new Skill(
             skillDTO.getName(),
@@ -60,6 +63,9 @@ public class SkillController {
     
     @PutMapping ("/skills/{id}")
     public ResponseEntity<Skill> update(@PathVariable UUID id, @RequestBody SkillDTO skillDTO){
+        if(skillDTO.getPersonId() == null){
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Person person = personService.getById(skillDTO.getPersonId());
         Skill skill = new Skill(
             id,

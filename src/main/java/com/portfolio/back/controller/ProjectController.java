@@ -29,12 +29,17 @@ public class ProjectController {
     
     @PostMapping ("/projects")
     public ResponseEntity<Project> create (@RequestBody ProjectDTO projectDTO){
+        if(projectDTO.getPersonId() == null){
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Person person = personService.getById(projectDTO.getPersonId());
         Project project = new Project(
             projectDTO.getName(),
             projectDTO.getDescription(),
-            projectDTO.getRealizationDate(),
+            projectDTO.getStartDate(),
+            projectDTO.getEndDate(),
             projectDTO.getLink(),
+            projectDTO.getUrlImage(),
             person);
         Project newProject = service.create(project);
         return new ResponseEntity<>(newProject,HttpStatus.CREATED);
@@ -61,13 +66,18 @@ public class ProjectController {
     
     @PutMapping ("/projects/{id}")
     public ResponseEntity<Project> update(@PathVariable UUID id, @RequestBody ProjectDTO projectDTO){
+        if(projectDTO.getPersonId() == null){
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Person person = personService.getById(projectDTO.getPersonId());
         Project project = new Project(
             id,
             projectDTO.getName(),
             projectDTO.getDescription(),
-            projectDTO.getRealizationDate(),
+            projectDTO.getStartDate(),
+            projectDTO.getEndDate(),
             projectDTO.getLink(),
+            projectDTO.getUrlImage(),
             person);
         Project updatedProject = service.update(project);
         return new ResponseEntity<>(updatedProject, HttpStatus.OK);

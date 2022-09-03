@@ -1,11 +1,11 @@
 package com.portfolio.back.dto;
 
-//import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class AuthRequest {
+    // TODO ver que sii se usa y decomentar null
     //@NotNull
     private String username;
      

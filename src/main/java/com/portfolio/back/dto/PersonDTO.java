@@ -11,7 +11,9 @@ public class PersonDTO {
     private String lastname;
     private String title;
     private String abstracts;
-    private UUID addressId;
+    private String urlImage;
+    private String urlCoverPhoto;
+
 
     public PersonDTO() {
     }

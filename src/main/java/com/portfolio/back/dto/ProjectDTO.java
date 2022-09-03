@@ -10,8 +10,10 @@ public class ProjectDTO {
     private UUID id;
     private String name;
     private String description;
-    private Date realizationDate;
+    private Date startDate;
+    private Date endDate;
     private String link;
+    private String urlImage;
     private UUID personId;
 
     public ProjectDTO() {

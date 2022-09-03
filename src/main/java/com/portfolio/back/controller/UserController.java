@@ -7,6 +7,7 @@ import com.portfolio.back.model.User;
 import com.portfolio.back.service.IPersonService;
 import com.portfolio.back.service.IUserService;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -90,5 +91,11 @@ public class UserController {
             userDTO.getPassword(),
             person);
         service.update(user);
+    }
+    
+    @GetMapping ("/users/username/{username}")
+    @ResponseBody
+    public UserResponse getByUsername(@PathVariable String username){
+        return service.getByUsername(username);
     }
 }

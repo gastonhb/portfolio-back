@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 
 @Getter @Setter
 public class BackException extends RuntimeException {
-
+    
+    // TODO revisar si se usa
     private static final long serialVersionUID = 1L;
 
     private HttpStatus state;

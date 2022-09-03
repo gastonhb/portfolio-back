@@ -17,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 public class Project implements Serializable {
     
+    // Revisar condiciones
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -24,8 +25,12 @@ public class Project implements Serializable {
     private UUID id;
     private String name;
     private String description;
-    private Date realizationDate;
+    private Date startDate;
+    private Date endDate;
+    @Column(columnDefinition = "TEXT")
     private String link;
+    @Column(columnDefinition = "TEXT")
+    private String urlImage;
     
     @ManyToOne
     @JoinColumn(name = "personId")
@@ -34,21 +39,27 @@ public class Project implements Serializable {
     public Project() {
     }
 
-    public Project(UUID id, String name, String description, Date realizationDate, String link, Person person) {
+    public Project(UUID id, String name, String description, Date startDate, Date endDate, String link, String urlImage, Person person) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.realizationDate = realizationDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.link = link;
+        this.urlImage = urlImage;
         this.person = person;
     }
 
-    public Project(String name, String description, Date realizationDate, String link, Person person) {
+    public Project(String name, String description, Date startDate, Date endDate, String link, String urlImage, Person person) {
         this.name = name;
         this.description = description;
-        this.realizationDate = realizationDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.link = link;
+        this.urlImage = urlImage;
         this.person = person;
     }
+    
+    
     
 }

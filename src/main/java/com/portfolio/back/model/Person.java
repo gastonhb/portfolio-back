@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 public class Person implements Serializable {
     
+    // Revisar condiciones
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -24,29 +23,32 @@ public class Person implements Serializable {
     private String name;
     private String lastname;
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String abstracts;
-    
-    @ManyToOne
-    @JoinColumn(name = "addressId")
-    private Address address;
+    @Column(columnDefinition = "TEXT")
+    private String urlImage;
+    @Column(columnDefinition = "TEXT")
+    private String urlCoverPhoto;
     
     public Person() {   }
 
-    public Person(UUID id, String name, String lastname, String title, String abstracts, Address address) {
+    public Person(UUID id, String name, String lastname, String title, String abstracts, String urlImage, String urlCoverPhoto) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.title = title;
         this.abstracts = abstracts;
-        this.address = address;
+        this.urlImage = urlImage;
+        this.urlCoverPhoto = urlCoverPhoto;
     }
 
-    public Person(String name, String lastname, String title, String abstracts, Address address) {
+    public Person(String name, String lastname, String title, String abstracts, String urlImage, String urlCoverPhoto) {
         this.name = name;
         this.lastname = lastname;
         this.title = title;
         this.abstracts = abstracts;
-        this.address = address;
+        this.urlImage = urlImage;
+        this.urlCoverPhoto = urlCoverPhoto;
     }
 
     public Person(String name, String lastname) {

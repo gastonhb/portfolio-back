@@ -1,5 +1,6 @@
 package com.portfolio.back;
 
+import com.portfolio.back.configuration.CorsFilter;
 import com.portfolio.back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -57,42 +58,57 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("*"));
 //        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
 //        configuration.addAllowedHeader("Access-Control-Allow-Origin");
 //        configuration.addAllowedHeader("Access-Control-Allow-Headers");
 //        configuration.addAllowedHeader("Authorization, x-xsrf-token, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 //        configuration.addAllowedHeader("Access-Control-Allow-Methods");
-        configuration.addAllowedHeader("Access-Control-Allow-Origin");
-        configuration.addExposedHeader("Access-Control-Allow-Origin");
+        //configuration.addAllowedHeader("Access-Control-Allow-Origin: *, Authorization, Access-Control-Allow-Headers: *, Origin, Accept, Content-Type, Access-Control-Request-Method: *, Access-Control-Request-Headers: *");
+        //configuration.addExposedHeader("Access-Control-Allow-Origin: *, Authorization, Access-Control-Allow-Headers: *, Origin, Accept, Content-Type, Access-Control-Request-Method: *, Access-Control-Request-Headers: *");
                 //addExposedHeaders("*");
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+//        configuration.addAllowedHeader("Access-Control-Allow-Origin: *");
+//        configuration.addAllowedHeader("Access-Control-Allow-Methods: GET, POST, DELETE, PUT, PATCH, HEAD");
+//        configuration.addAllowedHeader("Access-Control-Allow-Headers: Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+//        configuration.addAllowedHeader("Access-Control-Expose-Headers: Access-Control-Allow-Origin, Access-Control-Allow-Credentials");
+//        configuration.addAllowedHeader("Access-Control-Allow-Credentials: true");
+        // configuration.addIntHeader("Access-Control-Max-Age: 10");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+
     }
+    
+    
         
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-        http.csrf().disable();
+        // http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        http.cors().and()
+        //http.cors(withDefaults());
+        .csrf().disable();
         //http.cors(withDefaults());
         //sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
          
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers(HttpMethod.GET).permitAll()
                 .anyRequest().authenticated();
          
-            http.exceptionHandling()
-                    .authenticationEntryPoint(
-                        (request, response, ex) -> {
-                            response.sendError(
-                                HttpServletResponse.SC_UNAUTHORIZED,
-                                ex.getMessage()
-                            );
-                        }
-                );
-         
+        http.exceptionHandling()
+                .authenticationEntryPoint(
+                    (request, response, ex) -> {
+                        response.sendError(
+                            HttpServletResponse.SC_UNAUTHORIZED,
+                            ex.getMessage()
+                        );
+                    }
+            );
+        //http.addFilterBefore(CorsFilter);
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }  

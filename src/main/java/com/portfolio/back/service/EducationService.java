@@ -38,5 +38,10 @@ public class EducationService implements IEducationService{
     public Education update(Education education) {
 	return repository.save(education);
     }
+
+    @Override
+    public List<Education> list(UUID personId) {
+        return repository.findAllByPersonId(personId);
+    }
     
 }

@@ -29,6 +29,10 @@ public class WorkExperienceController {
     
     @PostMapping ("/work-experiences")
     public ResponseEntity<WorkExperience> create (@RequestBody WorkExperienceDTO workExperienceDTO){
+        if(workExperienceDTO.getPersonId() == null){
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        
         Person person = personService.getById(workExperienceDTO.getPersonId());
         WorkExperience workExperience = new WorkExperience(
             workExperienceDTO.getTitle(),
@@ -37,6 +41,7 @@ public class WorkExperienceController {
             workExperienceDTO.getEndDate(),
             workExperienceDTO.getWorkTime(),
             workExperienceDTO.getLocation(),
+            workExperienceDTO.getUrlImage(),
             person);
         WorkExperience newWorkExperience = service.create(workExperience);
         return new ResponseEntity<>(newWorkExperience,HttpStatus.CREATED);
@@ -63,6 +68,9 @@ public class WorkExperienceController {
     
     @PutMapping ("/work-experiences/{id}")
     public ResponseEntity<WorkExperience> update(@PathVariable UUID id, @RequestBody WorkExperienceDTO workExperienceDTO){
+        if(workExperienceDTO.getPersonId() == null){
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Person person = personService.getById(workExperienceDTO.getPersonId());
         WorkExperience workExperience = new WorkExperience(
             id,
@@ -72,6 +80,7 @@ public class WorkExperienceController {
             workExperienceDTO.getEndDate(),
             workExperienceDTO.getWorkTime(),
             workExperienceDTO.getLocation(),
+            workExperienceDTO.getUrlImage(),
             person);
         WorkExperience updatedWorkExperience = service.update(workExperience);
         return new ResponseEntity<>(updatedWorkExperience, HttpStatus.OK);

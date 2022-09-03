@@ -15,4 +15,6 @@ public interface IEducationService {
     public Education getById (UUID id);
     
     public Education update (Education education);
+    
+    public List<Education> list (UUID personId);
 }
