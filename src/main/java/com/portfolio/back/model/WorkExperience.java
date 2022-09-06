@@ -26,7 +26,6 @@ public class WorkExperience implements Serializable {
     private String companyName;
     private Date startDate;
     private Date endDate;
-    private String workTime;
     private String location;
     @Column(columnDefinition = "TEXT")
     private String urlImage;
@@ -34,32 +33,34 @@ public class WorkExperience implements Serializable {
     @ManyToOne
     @JoinColumn(name = "personId")
     private Person person;
+    
+    @ManyToOne
+    @JoinColumn(name = "workTimeTypeId")
+    private WorkTimeType workTimeType;
 
     public WorkExperience() {}
 
-    public WorkExperience(UUID id, String title, String companyName, Date startDate, Date endDate, String workTime, String location, String urlImage, Person person) {
+    public WorkExperience(UUID id, String title, String companyName, Date startDate, Date endDate, String location, String urlImage, Person person, WorkTimeType workTimeType) {
         this.id = id;
         this.title = title;
         this.companyName = companyName;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.workTime = workTime;
         this.location = location;
         this.urlImage = urlImage;
         this.person = person;
+        this.workTimeType = workTimeType;
     }
 
-    public WorkExperience(String title, String companyName, Date startDate, Date endDate, String workTime, String location, String urlImage, Person person) {
+    public WorkExperience(String title, String companyName, Date startDate, Date endDate, String location, String urlImage, Person person, WorkTimeType workTimeType) {
         this.title = title;
         this.companyName = companyName;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.workTime = workTime;
         this.location = location;
         this.urlImage = urlImage;
         this.person = person;
+        this.workTimeType = workTimeType;
     }
-    
-    
     
 }

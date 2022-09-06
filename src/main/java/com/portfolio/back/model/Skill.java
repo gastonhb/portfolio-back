@@ -14,7 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Getter @Setter
 @Entity
-public class Skill implements Serializable{
+public class Skill implements Serializable {
     
     // Revisar condiciones
     @Id
@@ -25,7 +25,6 @@ public class Skill implements Serializable{
     private String name;
     private String type;
     private Integer grade;
-     
     
     @ManyToOne
     @JoinColumn(name = "personId")

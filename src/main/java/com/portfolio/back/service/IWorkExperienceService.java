@@ -1,19 +1,23 @@
 
 package com.portfolio.back.service;
 
+import com.portfolio.back.dto.WorkExperienceResponseDTO;
 import com.portfolio.back.model.WorkExperience;
 import java.util.List;
 import java.util.UUID;
 
 public interface IWorkExperienceService {
 
-    public List<WorkExperience> list ();
+    public List<WorkExperienceResponseDTO> list ();
     
-    public WorkExperience create (WorkExperience workExperience);
+    public WorkExperienceResponseDTO create (WorkExperience workExperience);
     
     public void delete (UUID id);
     
-    public WorkExperience getById (UUID id);
+    public WorkExperienceResponseDTO getById (UUID id);
     
-    public WorkExperience update (WorkExperience workExperience);
+    public WorkExperienceResponseDTO update (WorkExperience workExperience);
+    
+    public List<WorkExperienceResponseDTO> list(UUID personId);
+
 }

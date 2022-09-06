@@ -14,10 +14,10 @@ public class WorkExperienceDTO {
     private String companyName;
     private Date startDate;
     private Date endDate;
-    private String workTime;
     private String location;
     private String urlImage;
     private UUID personId;
+    private UUID workTimeTypeId;
 
     public WorkExperienceDTO() {
     }
