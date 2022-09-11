@@ -12,8 +12,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Getter @Setter
 @Entity
-public class SkillType implements Serializable {
-    
+public class SocialNetworkType implements Serializable {
+    // Revisar condiciones
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -21,13 +21,16 @@ public class SkillType implements Serializable {
     private UUID id;
     private String name;
 
-    public SkillType() {
+    public SocialNetworkType() {
     }
 
-    public SkillType(UUID id, String name) {
+    public SocialNetworkType(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
-    
+
+    public SocialNetworkType(String name) {
+        this.name = name;
+    }   
     
 }
