@@ -20,17 +20,20 @@ public class SocialNetworkType implements Serializable {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
     private String name;
+    private Boolean isLink;
 
     public SocialNetworkType() {
     }
 
-    public SocialNetworkType(UUID id, String name) {
+    public SocialNetworkType(UUID id, String name, Boolean isLink) {
         this.id = id;
         this.name = name;
+        this.isLink = isLink;
     }
 
-    public SocialNetworkType(String name) {
+    public SocialNetworkType(String name, Boolean isLink) {
         this.name = name;
+        this.isLink = isLink;
     }   
     
 }

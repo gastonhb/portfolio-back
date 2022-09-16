@@ -47,7 +47,7 @@ public class SocialNetworkController {
         SocialNetworkType socialNetworkType = socialNetworkTypeService.getById(
                 socialNetworkRequestDTO.getSocialNetworkTypeId());
         SocialNetwork socialNetwork = new SocialNetwork(
-            socialNetworkRequestDTO.getDescription(),
+            socialNetworkRequestDTO.getContent(),
             person,
             socialNetworkType);
         SocialNetworkResponseDTO socialNetworkResponseDTO = service.create(socialNetwork);
@@ -91,7 +91,8 @@ public class SocialNetworkController {
         SocialNetworkType socialNetworkType = socialNetworkTypeService.getById(
             socialNetworkRequestDTO.getSocialNetworkTypeId());
         SocialNetwork socialNetwork = new SocialNetwork(
-            socialNetworkRequestDTO.getDescription(),
+            id,
+            socialNetworkRequestDTO.getContent(),
             person,
             socialNetworkType);
         SocialNetworkResponseDTO socialNetworkResponseDTO = service.update(socialNetwork);

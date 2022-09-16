@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter @Setter
 public class SocialNetworkResponseDTO {
     private UUID id;
-    private String description;
+    private String content;
     private UUID personId;
     private UUID socialNetworkTypeId;
     private SocialNetworkType socialNetworkType;
@@ -16,9 +16,9 @@ public class SocialNetworkResponseDTO {
     public SocialNetworkResponseDTO() {
     }
 
-    public SocialNetworkResponseDTO(UUID id, String description, UUID personId, UUID socialNetworkTypeId, SocialNetworkType socialNetworkType) {
+    public SocialNetworkResponseDTO(UUID id, String content, UUID personId, UUID socialNetworkTypeId, SocialNetworkType socialNetworkType) {
         this.id = id;
-        this.description = description;
+        this.content = content;
         this.personId = personId;
         this.socialNetworkTypeId = socialNetworkTypeId;
         this.socialNetworkType = socialNetworkType;

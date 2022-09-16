@@ -56,7 +56,7 @@ public class SocialNetworkService implements ISocialNetworkService {
         SocialNetworkResponseDTO socialNetworkResponseDTO = new
             SocialNetworkResponseDTO(
                 socialNetwork.getId(), 
-                socialNetwork.getDescription(),
+                socialNetwork.getContent(),
                 socialNetwork.getPerson().getId(),
                 socialNetwork.getSocialNetworkType().getId(),
                 socialNetwork.getSocialNetworkType()

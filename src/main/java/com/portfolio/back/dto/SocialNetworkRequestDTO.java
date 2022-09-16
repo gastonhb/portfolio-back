@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter @Setter
 public class SocialNetworkRequestDTO {
     private UUID id;
-    private String description;
+    private String content;
     private UUID personId;
     private UUID socialNetworkTypeId;
 

@@ -22,7 +22,7 @@ public class SocialNetwork implements Serializable {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
     @Column(columnDefinition = "TEXT")
-    private String description;
+    private String content;
     
     @ManyToOne
     @JoinColumn(name = "personId")
@@ -35,15 +35,15 @@ public class SocialNetwork implements Serializable {
     public SocialNetwork() {
     }
 
-    public SocialNetwork(UUID id, String description, Person person, SocialNetworkType socialNetworkType) {
+    public SocialNetwork(UUID id, String content, Person person, SocialNetworkType socialNetworkType) {
         this.id = id;
-        this.description = description;
+        this.content = content;
         this.person = person;
         this.socialNetworkType = socialNetworkType;
     }
 
-    public SocialNetwork(String description, Person person, SocialNetworkType socialNetworkType) {
-        this.description = description;
+    public SocialNetwork(String content, Person person, SocialNetworkType socialNetworkType) {
+        this.content = content;
         this.person = person;
         this.socialNetworkType = socialNetworkType;
     }
