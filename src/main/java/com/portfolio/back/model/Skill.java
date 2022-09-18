@@ -23,29 +23,32 @@ public class Skill implements Serializable {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
     private String name;
-    private String type;
     private Integer grade;
     
     @ManyToOne
     @JoinColumn(name = "personId")
     private Person person;
+    
+    @ManyToOne
+    @JoinColumn(name = "skillTypeId")
+    private SkillType skillType;
 
     public Skill() {
     }
 
-    public Skill(UUID id, String name, String type, Integer grade, Person person) {
+    public Skill(UUID id, String name, Integer grade, Person person, SkillType skillType) {
         this.id = id;
         this.name = name;
-        this.type = type;
         this.grade = grade;
         this.person = person;
+        this.skillType = skillType;
     }
 
-    public Skill(String name, String type, Integer grade, Person person) {
+    public Skill(String name, Integer grade, Person person, SkillType skillType) {
         this.name = name;
-        this.type = type;
         this.grade = grade;
         this.person = person;
+        this.skillType = skillType;
     }
 
 }

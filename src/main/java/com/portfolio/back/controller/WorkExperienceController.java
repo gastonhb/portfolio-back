@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,19 +28,21 @@ public class WorkExperienceController {
     
     @Autowired
     private IWorkExperienceService service;
+    
     @Autowired
     private IPersonService personService;
+    
     @Autowired
     private IWorkTimeTypeService workTimeTypeService;
     
     @PostMapping ("/work-experiences")
     public ResponseEntity<WorkExperienceResponseDTO> create (@RequestBody WorkExperienceDTO workExperienceDTO){
         if(workExperienceDTO.getPersonId() == null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
         if(workExperienceDTO.getWorkTimeTypeId() == null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
         Person person = personService.getById(workExperienceDTO.getPersonId());
@@ -59,8 +62,12 @@ public class WorkExperienceController {
     
     @GetMapping ("/work-experiences")
     @ResponseBody
-    public List<WorkExperienceResponseDTO> list(){
-       return service.list();
+    public List<WorkExperienceResponseDTO> list(@RequestParam(required = false) UUID personId){
+       if(personId == null){
+            return service.list();
+        } else {
+            return service.list(personId); 
+        }
     }
     
     @GetMapping ("/work-experiences/{id}")
@@ -79,15 +86,16 @@ public class WorkExperienceController {
     @PutMapping ("/work-experiences/{id}")
     public ResponseEntity<WorkExperienceResponseDTO> update(@PathVariable UUID id, @RequestBody WorkExperienceDTO workExperienceDTO){
         if(workExperienceDTO.getPersonId() == null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
         if(workExperienceDTO.getWorkTimeTypeId() == null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
         Person person = personService.getById(workExperienceDTO.getPersonId());
-        WorkTimeType workTimeType = workTimeTypeService.getById(workExperienceDTO.getWorkTimeTypeId());
+        WorkTimeType workTimeType = workTimeTypeService.getById(
+            workExperienceDTO.getWorkTimeTypeId());
         
         WorkExperience workExperience = new WorkExperience(
             id,

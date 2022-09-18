@@ -1,10 +1,13 @@
 package com.portfolio.back.controller;
 
-import com.portfolio.back.dto.SkillDTO;
+import com.portfolio.back.dto.SkillRequestDTO;
+import com.portfolio.back.dto.SkillResponseDTO;
 import com.portfolio.back.model.Skill;
 import com.portfolio.back.model.Person;
+import com.portfolio.back.model.SkillType;
 import com.portfolio.back.service.ISkillService;
 import com.portfolio.back.service.IPersonService;
+import com.portfolio.back.service.ISkillTypeService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,35 +28,50 @@ public class SkillController {
     
     @Autowired
     private ISkillService service;
+    
     @Autowired
     private IPersonService personService;
     
+    @Autowired
+    private ISkillTypeService skillTypeService;
+    
     @PostMapping ("/skills")
-    public ResponseEntity<Skill> create (@RequestBody SkillDTO skillDTO){
-        if(skillDTO.getPersonId() == null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<SkillResponseDTO> create (@RequestBody SkillRequestDTO skillRequestDTO){
+        if(skillRequestDTO.getPersonId() == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Person person = personService.getById(skillDTO.getPersonId());
+        
+        if(skillRequestDTO.getSkillTypeId() == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        
+        Person person = personService.getById(skillRequestDTO.getPersonId());
+        SkillType skillType = skillTypeService.getById(
+            skillRequestDTO.getSkillTypeId());
         Skill skill = new Skill(
-            skillDTO.getName(),
-            skillDTO.getType(),
-            skillDTO.getGrade(),
-            person);
-        Skill newSkill = service.create(skill);
-        return new ResponseEntity<>(newSkill,HttpStatus.CREATED);
+            skillRequestDTO.getName(),
+            skillRequestDTO.getGrade(),
+            person,
+            skillType);
+        SkillResponseDTO skillResponseDTO = service.create(skill);
+        return new ResponseEntity<>(skillResponseDTO, HttpStatus.CREATED);
     }
     
     @GetMapping ("/skills")
     @ResponseBody
-    public List<Skill> list(){
-       return service.list();
+    public List<SkillResponseDTO> list(@RequestParam(required = false) UUID personId){
+        if(personId == null){
+            return service.list();
+        } else {
+            return service.list(personId); 
+        }
     }
     
     @GetMapping ("/skills/{id}")
     @ResponseBody
-    public ResponseEntity<Skill> getById(@PathVariable UUID id){
-        Skill skill = service.getById(id);
-        return new ResponseEntity<>(skill,HttpStatus.OK);
+    public ResponseEntity<SkillResponseDTO> getById(@PathVariable UUID id){
+        SkillResponseDTO skillResponseDTO = service.getById(id);
+        return new ResponseEntity<>(skillResponseDTO, HttpStatus.OK);
     }
     
     @DeleteMapping ("/skills/{id}")
@@ -62,18 +81,25 @@ public class SkillController {
     }
     
     @PutMapping ("/skills/{id}")
-    public ResponseEntity<Skill> update(@PathVariable UUID id, @RequestBody SkillDTO skillDTO){
-        if(skillDTO.getPersonId() == null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<SkillResponseDTO> update(@PathVariable UUID id, @RequestBody SkillRequestDTO skillRequestDTO){
+        if(skillRequestDTO.getPersonId() == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Person person = personService.getById(skillDTO.getPersonId());
+        
+        if(skillRequestDTO.getSkillTypeId() == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        
+        Person person = personService.getById(skillRequestDTO.getPersonId());
+        SkillType skillType = skillTypeService.getById(
+            skillRequestDTO.getSkillTypeId());
         Skill skill = new Skill(
             id,
-            skillDTO.getName(),
-            skillDTO.getType(),
-            skillDTO.getGrade(),
-            person);
-        Skill updatedSkill = service.update(skill);
-        return new ResponseEntity<>(updatedSkill, HttpStatus.OK);
+            skillRequestDTO.getName(),
+            skillRequestDTO.getGrade(),
+            person,
+            skillType);
+        SkillResponseDTO skillResponseDTO = service.update(skill);
+        return new ResponseEntity<>(skillResponseDTO, HttpStatus.OK);
     }
 }
