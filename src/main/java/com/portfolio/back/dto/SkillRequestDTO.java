@@ -8,7 +8,6 @@ import lombok.Setter;
 public class SkillRequestDTO {
     private UUID id;
     private String name;
-    private String type;
     private Integer grade;
     private UUID personId;
     private UUID skillTypeId;

@@ -1,6 +1,7 @@
 package com.portfolio.back.controller;
 
-import com.portfolio.back.dto.ProjectDTO;
+import com.portfolio.back.dto.ProjectRequestDTO;
+import com.portfolio.back.dto.ProjectResponseDTO;
 import com.portfolio.back.model.Person;
 import com.portfolio.back.model.Project;
 import com.portfolio.back.service.IPersonService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,11 +26,12 @@ public class ProjectController {
         
     @Autowired
     private IProjectService service;
+    
     @Autowired
     private IPersonService personService;
     
     @PostMapping ("/projects")
-    public ResponseEntity<Project> create (@RequestBody ProjectDTO projectDTO){
+    public ResponseEntity<ProjectResponseDTO> create (@RequestBody ProjectRequestDTO projectDTO){
         if(projectDTO.getPersonId() == null){
              return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -41,21 +44,25 @@ public class ProjectController {
             projectDTO.getLink(),
             projectDTO.getUrlImage(),
             person);
-        Project newProject = service.create(project);
-        return new ResponseEntity<>(newProject,HttpStatus.CREATED);
+        ProjectResponseDTO projectResponseDTO = service.create(project);
+        return new ResponseEntity<>(projectResponseDTO, HttpStatus.CREATED);
     }
     
     @GetMapping ("/projects")
     @ResponseBody
-    public List<Project> list(){
-       return service.list();
+    public List<ProjectResponseDTO> list(@RequestParam(required = false) UUID personId){
+        if(personId == null){
+            return service.list();
+        } else {
+            return service.list(personId); 
+        }
     }
     
     @GetMapping ("/projects/{id}")
     @ResponseBody
-    public ResponseEntity<Project> getById(@PathVariable UUID id){
-        Project project = service.getById(id);
-        return new ResponseEntity<>(project,HttpStatus.OK);
+    public ResponseEntity<ProjectResponseDTO> getById(@PathVariable UUID id){
+        ProjectResponseDTO projectResponseDTO = service.getById(id);
+        return new ResponseEntity<>(projectResponseDTO, HttpStatus.OK);
     }
     
     @DeleteMapping ("/projects/{id}")
@@ -65,7 +72,7 @@ public class ProjectController {
     }
     
     @PutMapping ("/projects/{id}")
-    public ResponseEntity<Project> update(@PathVariable UUID id, @RequestBody ProjectDTO projectDTO){
+    public ResponseEntity<ProjectResponseDTO> update(@PathVariable UUID id, @RequestBody ProjectRequestDTO projectDTO){
         if(projectDTO.getPersonId() == null){
              return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -79,7 +86,7 @@ public class ProjectController {
             projectDTO.getLink(),
             projectDTO.getUrlImage(),
             person);
-        Project updatedProject = service.update(project);
-        return new ResponseEntity<>(updatedProject, HttpStatus.OK);
+        ProjectResponseDTO projectResponseDTO = service.update(project);
+        return new ResponseEntity<>(projectResponseDTO, HttpStatus.OK);
     }
 }

@@ -17,5 +17,5 @@ public interface ISkillService {
     
     public SkillResponseDTO update (Skill skill);
     
-     public List<SkillResponseDTO> list (UUID personId);
+    public List<SkillResponseDTO> list (UUID personId);
 }
