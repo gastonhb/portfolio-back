@@ -2,7 +2,10 @@ package com.portfolio.back.dto;
 
 import java.util.Date;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public class ProjectResponseDTO {
     private UUID id;
     private String name;
