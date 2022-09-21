@@ -16,7 +16,7 @@ public class SocialNetworkTypeService implements ISocialNetworkTypeService {
     
     @Override
     public List<SocialNetworkType> list() {
-        return repository.findAll();
+        return repository.findAllByOrderByNameAscIdAsc();
     }
 
     @Override

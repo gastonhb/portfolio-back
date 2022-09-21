@@ -47,7 +47,7 @@ public class EducationController {
     
     @GetMapping ("/educations")
     @ResponseBody
-    public List<Education> list(@RequestParam UUID personId){
+    public List<Education> list(@RequestParam(required = false) UUID personId){
         if(personId == null){
             return service.list();
         } else {

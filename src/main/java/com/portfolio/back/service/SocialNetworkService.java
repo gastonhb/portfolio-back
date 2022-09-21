@@ -48,7 +48,7 @@ public class SocialNetworkService implements ISocialNetworkService {
     
     @Override
     public List<SocialNetworkResponseDTO> list(UUID personId) {
-        List<SocialNetwork> socialNetworks = repository.findAllByPersonId(personId);
+        List<SocialNetwork> socialNetworks = repository.findAllByPersonIdOrderByContentAscIdAsc(personId);
         return this.convertToListResponseDTO(socialNetworks);
     }
     

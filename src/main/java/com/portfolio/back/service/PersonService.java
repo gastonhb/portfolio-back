@@ -16,7 +16,7 @@ public class PersonService implements IPersonService {
     
     @Override
     public List<Person> list() {
-        return repository.findAll();
+        return repository.findAllByOrderByLastnameAscNameAscIdAsc();
     }
 
     @Override

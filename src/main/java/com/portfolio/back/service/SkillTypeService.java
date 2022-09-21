@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 public class SkillTypeService implements ISkillTypeService {
     
     @Autowired
-    public SkillTypeRepository  repository;
+    public SkillTypeRepository repository;
     
     @Override
     public List<SkillType> list() {
-        return repository.findAll();
+        return repository.findAllByOrderByNameAscIdAsc();
     }
 
     @Override

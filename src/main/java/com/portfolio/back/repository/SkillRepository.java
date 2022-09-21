@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SkillRepository extends JpaRepository <Skill, UUID>{
     
-    public List<Skill> findAllByPersonId(UUID personId);
+    public List<Skill> findAllByPersonIdOrderByNameAscIdAsc(UUID personId);
     
 }

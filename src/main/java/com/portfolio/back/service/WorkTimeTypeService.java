@@ -16,7 +16,7 @@ public class WorkTimeTypeService implements IWorkTimeTypeService {
     
     @Override
     public List<WorkTimeType> list() {
-        return repository.findAll();
+        return repository.findAllByOrderByNameAscIdAsc();
     }
 
     @Override

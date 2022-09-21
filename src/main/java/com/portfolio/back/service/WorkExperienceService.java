@@ -48,7 +48,7 @@ public class WorkExperienceService implements IWorkExperienceService{
     
     @Override
     public List<WorkExperienceResponseDTO> list(UUID personId) {
-        List<WorkExperience> workExperiences = repository.findAllByPersonId(personId);
+        List<WorkExperience> workExperiences = repository.findAllByPersonIdOrderByTitleAscIdAsc(personId);
         return this.convertToListResponseDTO(workExperiences);
     }
     

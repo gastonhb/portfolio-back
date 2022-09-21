@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SocialNetworkRepository extends JpaRepository <SocialNetwork, UUID>{
     
-    public List<SocialNetwork> findAllByPersonId(UUID personId);
+    public List<SocialNetwork> findAllByPersonIdOrderByContentAscIdAsc(UUID personId);
     
 }

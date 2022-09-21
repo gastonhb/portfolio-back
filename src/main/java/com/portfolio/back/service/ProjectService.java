@@ -48,7 +48,7 @@ public class ProjectService implements IProjectService {
     
     @Override
     public List<ProjectResponseDTO> list(UUID personId) {
-        List<Project> projects = repository.findAllByPersonId(personId);
+        List<Project> projects = repository.findAllByPersonIdOrderByNameAscIdAsc(personId);
         return this.convertToListResponseDTO(projects);
     }
     

@@ -41,7 +41,7 @@ public class EducationService implements IEducationService{
 
     @Override
     public List<Education> list(UUID personId) {
-        return repository.findAllByPersonId(personId);
+        return repository.findAllByPersonIdOrderByStartDateAscIdAsc(personId);
     }
     
 }

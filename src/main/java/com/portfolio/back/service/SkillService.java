@@ -50,7 +50,7 @@ public class SkillService implements ISkillService{
     
     @Override
     public List<SkillResponseDTO> list(UUID personId) {
-        List<Skill> skills = repository.findAllByPersonId(personId);
+        List<Skill> skills = repository.findAllByPersonIdOrderByNameAscIdAsc(personId);
         return this.convertToListResponseDTO(skills);
     }
     

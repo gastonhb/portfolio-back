@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WorkExperienceRepository extends JpaRepository <WorkExperience, UUID>{
     
-    public List<WorkExperience> findAllByPersonId(UUID personId);
+    public List<WorkExperience> findAllByPersonIdOrderByTitleAscIdAsc(UUID personId);
     
 }

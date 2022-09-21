@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProjectRepository extends JpaRepository <Project, UUID>{
     
-    public List<Project> findAllByPersonId(UUID personId);
+    public List<Project> findAllByPersonIdOrderByNameAscIdAsc(UUID personId);
     
 }
