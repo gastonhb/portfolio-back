@@ -1,6 +1,7 @@
 package com.portfolio.back.controller;
 
-import com.portfolio.back.dto.EducationDTO;
+import com.portfolio.back.dto.EducationRequestDTO;
+import com.portfolio.back.dto.EducationResponseDTO;
 import com.portfolio.back.model.Education;
 import com.portfolio.back.model.Person;
 import com.portfolio.back.service.IEducationService;
@@ -25,29 +26,30 @@ public class EducationController {
         
     @Autowired
     private IEducationService service;
+    
     @Autowired
     private IPersonService personService;
     
     @PostMapping ("/educations")
-    public ResponseEntity<Education> create (@RequestBody EducationDTO educationDTO){
-        if(educationDTO.getPersonId() == null){
+    public ResponseEntity<EducationResponseDTO> create (@RequestBody EducationRequestDTO educationRequestDTO){
+        if(educationRequestDTO.getPersonId() == null){
              return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Person person = personService.getById(educationDTO.getPersonId());
+        Person person = personService.getById(educationRequestDTO.getPersonId());
         Education education = new Education(
-            educationDTO.getTitle(),
-            educationDTO.getInstitute(),
-            educationDTO.getStartDate(),
-            educationDTO.getEndDate(),
-            educationDTO.getUrlImage(),
+            educationRequestDTO.getTitle(),
+            educationRequestDTO.getInstitute(),
+            educationRequestDTO.getStartDate(),
+            educationRequestDTO.getEndDate(),
+            educationRequestDTO.getUrlImage(),
             person);
-        Education newEducation = service.create(education);
-        return new ResponseEntity<>(newEducation,HttpStatus.CREATED);
+        EducationResponseDTO educationResponseDTO = service.create(education);
+        return new ResponseEntity<>(educationResponseDTO, HttpStatus.CREATED);
     }
     
     @GetMapping ("/educations")
     @ResponseBody
-    public List<Education> list(@RequestParam(required = false) UUID personId){
+    public List<EducationResponseDTO> list(@RequestParam(required = false) UUID personId){
         if(personId == null){
             return service.list();
         } else {
@@ -57,9 +59,9 @@ public class EducationController {
     
     @GetMapping ("/educations/{id}")
     @ResponseBody
-    public ResponseEntity<Education> getById(@PathVariable UUID id){
-        Education education = service.getById(id);
-        return new ResponseEntity<>(education,HttpStatus.OK);
+    public ResponseEntity<EducationResponseDTO> getById(@PathVariable UUID id){
+        EducationResponseDTO educationResponseDTO = service.getById(id);
+        return new ResponseEntity<>(educationResponseDTO, HttpStatus.OK);
     }
     
     @DeleteMapping ("/educations/{id}")
@@ -69,20 +71,20 @@ public class EducationController {
     }
     
     @PutMapping ("/educations/{id}")
-    public ResponseEntity<Education> update(@PathVariable UUID id, @RequestBody EducationDTO educationDTO){
-        if(educationDTO.getPersonId() == null){
+    public ResponseEntity<EducationResponseDTO> update(@PathVariable UUID id, @RequestBody EducationRequestDTO educationRequestDTO){
+        if(educationRequestDTO.getPersonId() == null){
              return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Person person = personService.getById(educationDTO.getPersonId());
+        Person person = personService.getById(educationRequestDTO.getPersonId());
         Education education = new Education(
             id,
-            educationDTO.getTitle(),
-            educationDTO.getInstitute(),
-            educationDTO.getStartDate(),
-            educationDTO.getEndDate(),
-            educationDTO.getUrlImage(),
+            educationRequestDTO.getTitle(),
+            educationRequestDTO.getInstitute(),
+            educationRequestDTO.getStartDate(),
+            educationRequestDTO.getEndDate(),
+            educationRequestDTO.getUrlImage(),
             person);
-        Education updatedEducation = service.update(education);
-        return new ResponseEntity<>(updatedEducation, HttpStatus.OK);
+        EducationResponseDTO educationResponseDTO = service.update(education);
+        return new ResponseEntity<>(educationResponseDTO, HttpStatus.OK);
     }
 }

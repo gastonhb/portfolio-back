@@ -1,7 +1,7 @@
 package com.portfolio.back.controller;
 
-import com.portfolio.back.dto.UserDTO;
-import com.portfolio.back.dto.UserResponse;
+import com.portfolio.back.dto.UserRequestDTO;
+import com.portfolio.back.dto.UserResponseDTO;
 import com.portfolio.back.model.Person;
 import com.portfolio.back.model.User;
 import com.portfolio.back.service.IPersonService;
@@ -27,38 +27,40 @@ public class UserController {
     
     @Autowired
     private IUserService service;
+    
     @Autowired
     private IPersonService personService;
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
     
     @PostMapping("/users")
-    public ResponseEntity<?> create(@RequestBody UserDTO userDTO){
-        if(service.existsByUsername(userDTO.getUsername())) {
+    public ResponseEntity<?> create(@RequestBody UserRequestDTO userRequestDTO){
+        if(service.existsByUsername(userRequestDTO.getUsername())) {
             return new ResponseEntity<>("This username already exist.",
                 HttpStatus.BAD_REQUEST);
         }
 
-        if(service.existsByEmail(userDTO.getEmail())) {
+        if(service.existsByEmail(userRequestDTO.getEmail())) {
             return new ResponseEntity<>("This email already exist",
                 HttpStatus.BAD_REQUEST);
         }
         
-        UUID personId = userDTO.getPersonId();
+        UUID personId = userRequestDTO.getPersonId();
         Person person;
         if(personId == null){
-            person = new Person (userDTO.getName(), userDTO.getLastname());
+            person = new Person (userRequestDTO.getName(), userRequestDTO.getLastname());
             person = personService.create(person);
         } else {
-            person = personService.getById(userDTO.getPersonId());
+            person = personService.getById(userRequestDTO.getPersonId());
         }
         
         User user = new User();
         
         user.setPerson(person);
-        user.setUsername(userDTO.getUsername());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setUsername(userRequestDTO.getUsername());
+        user.setEmail(userRequestDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
 
         service.create(user);
         return new ResponseEntity<>("User successfully registered",
@@ -73,7 +75,7 @@ public class UserController {
     
     @GetMapping ("/users/{id}")
     @ResponseBody
-    public UserResponse getById(@PathVariable UUID id){
+    public UserResponseDTO getById(@PathVariable UUID id){
         return service.getReferenceById(id);
     }
     
@@ -83,19 +85,19 @@ public class UserController {
     }
     
     @PutMapping ("/users/{id}")
-    public void update(@PathVariable UUID id, @RequestBody UserDTO userDTO){
-        Person person = personService.getById(userDTO.getPersonId());
+    public void update(@PathVariable UUID id, @RequestBody UserRequestDTO userRequestDTO){
+        Person person = personService.getById(userRequestDTO.getPersonId());
         User user = new User(
             id,
-            userDTO.getUsername(),
-            userDTO.getPassword(),
+            userRequestDTO.getUsername(),
+            userRequestDTO.getPassword(),
             person);
         service.update(user);
     }
     
     @GetMapping ("/users/username/{username}")
     @ResponseBody
-    public UserResponse getByUsername(@PathVariable String username){
+    public UserResponseDTO getByUsername(@PathVariable String username){
         return service.getByUsername(username);
     }
 }

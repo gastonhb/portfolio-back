@@ -1,8 +1,10 @@
 package com.portfolio.back.service;
 
+import com.portfolio.back.dto.EducationResponseDTO;
 import com.portfolio.back.exception.ResourceNotFoundException;
 import com.portfolio.back.model.Education;
 import com.portfolio.back.repository.EducationRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +16,15 @@ public class EducationService implements IEducationService{
     public EducationRepository  repository;
     
     @Override
-    public List<Education> list() {
-        return repository.findAll();
+    public List<EducationResponseDTO> list() {
+        List<Education> educations = repository.findAll();
+        return this.convertToListResponseDTO(educations);
     }
 
     @Override
-    public Education create(Education education) {
-        return repository.save(education);
+    public EducationResponseDTO create(Education education) {
+        Education savedEducation = repository.save(education);
+        return this.convertToResponseDTO(savedEducation);
     }
 
     @Override
@@ -29,19 +33,45 @@ public class EducationService implements IEducationService{
     }
 
     @Override
-    public Education getById(UUID id) {
-        return repository.findById(id)
+    public EducationResponseDTO getById(UUID id) {
+        Education education =  repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Education", "id", id));
+        return this.convertToResponseDTO(education);
     }
     
     @Override
-    public Education update(Education education) {
-	return repository.save(education);
+    public EducationResponseDTO update(Education education) {
+	Education savedEducation = repository.save(education);
+        return this.convertToResponseDTO(savedEducation);
     }
 
     @Override
-    public List<Education> list(UUID personId) {
-        return repository.findAllByPersonIdOrderByStartDateAscIdAsc(personId);
+    public List<EducationResponseDTO> list(UUID personId) {
+        List<Education> educations = repository.findAllByPersonIdOrderByStartDateAscIdAsc(personId);
+        return this.convertToListResponseDTO(educations);
+    }
+    
+    private EducationResponseDTO convertToResponseDTO(Education education){
+        EducationResponseDTO educationResponseDTO = new
+            EducationResponseDTO(
+                education.getId(), 
+                education.getTitle(),
+                education.getInstitute(),
+                education.getStartDate(),
+                education.getEndDate(),
+                education.getUrlImage(),
+                education.getPerson().getId()
+            );
+        return educationResponseDTO;
+    }
+    
+    private List<EducationResponseDTO> convertToListResponseDTO(List<Education> educations){
+        List<EducationResponseDTO> educationsResponse = new ArrayList<>(); 
+        for(Education education: educations){
+            EducationResponseDTO educationResponseDTO = this.convertToResponseDTO(education);
+            educationsResponse.add(educationResponseDTO);
+        }
+        return educationsResponse;
     }
     
 }

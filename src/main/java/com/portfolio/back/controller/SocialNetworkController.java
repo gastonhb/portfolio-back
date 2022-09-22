@@ -28,8 +28,10 @@ public class SocialNetworkController {
     
     @Autowired
     private ISocialNetworkService service;
+    
     @Autowired
     private IPersonService personService;
+    
     @Autowired
     private ISocialNetworkTypeService socialNetworkTypeService;
     
@@ -98,4 +100,5 @@ public class SocialNetworkController {
         SocialNetworkResponseDTO socialNetworkResponseDTO = service.update(socialNetwork);
         return new ResponseEntity<>(socialNetworkResponseDTO, HttpStatus.OK);
     }
+    
 }

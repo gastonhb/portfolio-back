@@ -1,20 +1,21 @@
 package com.portfolio.back.service;
 
+import com.portfolio.back.dto.EducationResponseDTO;
 import com.portfolio.back.model.Education;
 import java.util.List;
 import java.util.UUID;
 
 public interface IEducationService {
     
-    public List<Education> list ();
+    public List<EducationResponseDTO> list ();
     
-    public Education create (Education education);
+    public EducationResponseDTO create (Education education);
     
     public void delete (UUID id);
     
-    public Education getById (UUID id);
+    public EducationResponseDTO getById (UUID id);
     
-    public Education update (Education education);
+    public EducationResponseDTO update (Education education);
     
-    public List<Education> list (UUID personId);
+    public List<EducationResponseDTO> list (UUID personId);
 }

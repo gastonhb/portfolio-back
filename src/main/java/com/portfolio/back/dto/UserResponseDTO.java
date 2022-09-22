@@ -6,16 +6,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class UserResponse {
+public class UserResponseDTO {
     private UUID id;
     private String username;
     private String email;
     private Person person;
 
-    public UserResponse() {
+    public UserResponseDTO() {
     }
 
-    public UserResponse(UUID id, String username, String email, Person person) {
+    public UserResponseDTO(UUID id, String username, String email, Person person) {
         this.id = id;
         this.username = username;
         this.email = email;

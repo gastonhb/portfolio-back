@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.portfolio.back.dto.UserResponse;
+import com.portfolio.back.dto.UserResponseDTO;
 
 @Service
 public class UserService implements IUserService{
@@ -32,10 +32,10 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public UserResponse getReferenceById(UUID id) {
+    public UserResponseDTO getReferenceById(UUID id) {
         User user = repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
-        return new UserResponse(user.getId(), user.getUsername(),
+        return new UserResponseDTO(user.getId(), user.getUsername(),
                 user.getEmail(), user.getPerson());
     }
     
@@ -65,10 +65,10 @@ public class UserService implements IUserService{
     }
     
     @Override
-    public UserResponse getByUsername(String username) {
+    public UserResponseDTO getByUsername(String username) {
         User user = repository.findByUsername(username)
             .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
-        return new UserResponse(user.getId(), user.getUsername(),
+        return new UserResponseDTO(user.getId(), user.getUsername(),
                 user.getEmail(), user.getPerson());
     }
 }

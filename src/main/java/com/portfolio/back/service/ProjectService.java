@@ -68,7 +68,6 @@ public class ProjectService implements IProjectService {
     }
     
     private List<ProjectResponseDTO> convertToListResponseDTO(List<Project> projects){
-        
         List<ProjectResponseDTO> projectsResponse = new ArrayList<>(); 
         for(Project project: projects){
             ProjectResponseDTO projectResponseDTO = this.convertToResponseDTO(project);

@@ -1,7 +1,7 @@
 package com.portfolio.back.controller;
 
-import com.portfolio.back.dto.AuthRequest;
-import com.portfolio.back.dto.AuthResponse;
+import com.portfolio.back.dto.AuthRequestDTO;
+import com.portfolio.back.dto.AuthResponseDTO;
 import com.portfolio.back.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,20 +30,20 @@ public class AuthController {
     JwtTokenUtil jwtUtil;
     
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<?> login(@RequestBody AuthRequestDTO authRequestDTO) {
         try {
-            String username =  request.getUsername();
-            String pass = request.getPassword();
+            String username = authRequestDTO.getUsername();
+            String pass = authRequestDTO.getPassword();
             Authentication authentication = authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            username, pass)
-            );
+                new UsernamePasswordAuthenticationToken(
+                    username, pass));
       
             User user = (User) authentication.getPrincipal();
 
             String accessToken = jwtUtil.generateAccessToken(user);
             Person person = user.getPerson();
-            AuthResponse response = new AuthResponse(user.getUsername(), accessToken, person.getId());
+            AuthResponseDTO response = new AuthResponseDTO(user.getUsername(),
+                accessToken, person.getId());
             
             return new ResponseEntity<>(response,HttpStatus.OK);
              

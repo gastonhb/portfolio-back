@@ -14,7 +14,6 @@ public class PersonDTO {
     private String urlImage;
     private String urlCoverPhoto;
 
-
     public PersonDTO() {
     }
     

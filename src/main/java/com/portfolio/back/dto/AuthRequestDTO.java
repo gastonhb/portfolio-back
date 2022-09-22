@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class AuthRequest {
+public class AuthRequestDTO {
     // TODO ver que sii se usa y decomentar null
     //@NotNull
     private String username;
@@ -12,7 +12,7 @@ public class AuthRequest {
     //@NotNull
     private String password;
 
-    public AuthRequest() {
+    public AuthRequestDTO() {
     }
     
     

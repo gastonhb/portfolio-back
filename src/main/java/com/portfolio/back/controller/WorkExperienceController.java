@@ -1,6 +1,6 @@
 package com.portfolio.back.controller;
 
-import com.portfolio.back.dto.WorkExperienceDTO;
+import com.portfolio.back.dto.WorkExperienceRequestDTO;
 import com.portfolio.back.dto.WorkExperienceResponseDTO;
 import com.portfolio.back.model.Person;
 import com.portfolio.back.model.WorkExperience;
@@ -36,24 +36,24 @@ public class WorkExperienceController {
     private IWorkTimeTypeService workTimeTypeService;
     
     @PostMapping ("/work-experiences")
-    public ResponseEntity<WorkExperienceResponseDTO> create (@RequestBody WorkExperienceDTO workExperienceDTO){
-        if(workExperienceDTO.getPersonId() == null){
+    public ResponseEntity<WorkExperienceResponseDTO> create (@RequestBody WorkExperienceRequestDTO workExperienceRequestDTO){
+        if(workExperienceRequestDTO.getPersonId() == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
-        if(workExperienceDTO.getWorkTimeTypeId() == null){
+        if(workExperienceRequestDTO.getWorkTimeTypeId() == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
-        Person person = personService.getById(workExperienceDTO.getPersonId());
-        WorkTimeType workTimeType = workTimeTypeService.getById(workExperienceDTO.getWorkTimeTypeId());
+        Person person = personService.getById(workExperienceRequestDTO.getPersonId());
+        WorkTimeType workTimeType = workTimeTypeService.getById(workExperienceRequestDTO.getWorkTimeTypeId());
         WorkExperience workExperience = new WorkExperience(
-            workExperienceDTO.getTitle(),
-            workExperienceDTO.getCompanyName(),
-            workExperienceDTO.getStartDate(),
-            workExperienceDTO.getEndDate(),
-            workExperienceDTO.getLocation(),
-            workExperienceDTO.getUrlImage(),
+            workExperienceRequestDTO.getTitle(),
+            workExperienceRequestDTO.getCompanyName(),
+            workExperienceRequestDTO.getStartDate(),
+            workExperienceRequestDTO.getEndDate(),
+            workExperienceRequestDTO.getLocation(),
+            workExperienceRequestDTO.getUrlImage(),
             person,
             workTimeType);
         WorkExperienceResponseDTO workExperienceResponseDTO = service.create(workExperience);
@@ -84,27 +84,27 @@ public class WorkExperienceController {
     }
     
     @PutMapping ("/work-experiences/{id}")
-    public ResponseEntity<WorkExperienceResponseDTO> update(@PathVariable UUID id, @RequestBody WorkExperienceDTO workExperienceDTO){
-        if(workExperienceDTO.getPersonId() == null){
+    public ResponseEntity<WorkExperienceResponseDTO> update(@PathVariable UUID id, @RequestBody WorkExperienceRequestDTO workExperienceRequestDTO){
+        if(workExperienceRequestDTO.getPersonId() == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
-        if(workExperienceDTO.getWorkTimeTypeId() == null){
+        if(workExperienceRequestDTO.getWorkTimeTypeId() == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
-        Person person = personService.getById(workExperienceDTO.getPersonId());
+        Person person = personService.getById(workExperienceRequestDTO.getPersonId());
         WorkTimeType workTimeType = workTimeTypeService.getById(
-            workExperienceDTO.getWorkTimeTypeId());
+            workExperienceRequestDTO.getWorkTimeTypeId());
         
         WorkExperience workExperience = new WorkExperience(
             id,
-            workExperienceDTO.getTitle(),
-            workExperienceDTO.getCompanyName(),
-            workExperienceDTO.getStartDate(),
-            workExperienceDTO.getEndDate(),
-            workExperienceDTO.getLocation(),
-            workExperienceDTO.getUrlImage(),
+            workExperienceRequestDTO.getTitle(),
+            workExperienceRequestDTO.getCompanyName(),
+            workExperienceRequestDTO.getStartDate(),
+            workExperienceRequestDTO.getEndDate(),
+            workExperienceRequestDTO.getLocation(),
+            workExperienceRequestDTO.getUrlImage(),
             person,
             workTimeType);
         WorkExperienceResponseDTO workExperienceResponseDTO = service.update(workExperience);
