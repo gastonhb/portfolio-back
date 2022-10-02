@@ -1,19 +1,19 @@
 package com.portfolio.back.dto;
 
+import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class AuthRequestDTO {
-    // TODO ver que sii se usa y decomentar null
-    //@NotNull
+    
+    @NotBlank(message = "Username is required")
     private String username;
      
-    //@NotNull
+    @NotBlank(message = "Password is required")
     private String password;
 
     public AuthRequestDTO() {
     }
-    
     
 }
