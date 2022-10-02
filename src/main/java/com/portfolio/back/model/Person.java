@@ -14,20 +14,28 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 public class Person implements Serializable {
     
-    // Revisar condiciones
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+    
+    @Column(nullable = false)
     private String name;
+    
+    @Column(nullable = false)
     private String lastname;
+    
+    @Column(nullable = true)
     private String title;
-    @Column(columnDefinition = "TEXT")
+    
+    @Column(columnDefinition = "TEXT", nullable = true)
     private String abstracts;
-    @Column(columnDefinition = "TEXT")
+    
+    @Column(columnDefinition = "TEXT", nullable = true)
     private String urlImage;
-    @Column(columnDefinition = "TEXT")
+    
+    @Column(columnDefinition = "TEXT", nullable = true)
     private String urlCoverPhoto;
     
     public Person() {   }
