@@ -13,13 +13,17 @@ import org.hibernate.annotations.GenericGenerator;
 @Getter @Setter
 @Entity
 public class SocialNetworkType implements Serializable {
-    // Revisar condiciones
+
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+    
+    @Column(nullable = false, unique = true)
     private String name;
+    
+    @Column(nullable = false)
     private Boolean isLink;
 
     public SocialNetworkType() {

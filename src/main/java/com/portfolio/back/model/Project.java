@@ -9,31 +9,48 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 @Getter @Setter
 @Entity
+@Table(uniqueConstraints={
+    @UniqueConstraint(columnNames = {"personId", "link"})
+}) 
 public class Project implements Serializable {
     
-    // Revisar condiciones
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+    
+    @Column(nullable = false)
     private String name;
+    
+    @Column(nullable = true)
     private String description;
+    
+    @Column(nullable = true)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date startDate;
+    
+    @Column(nullable = true)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date endDate;
-    @Column(columnDefinition = "TEXT")
+    
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String link;
-    @Column(columnDefinition = "TEXT")
+    
+    @Column(columnDefinition = "TEXT", nullable = true)
     private String urlImage;
     
     @ManyToOne
-    @JoinColumn(name = "personId")
+    @JoinColumn(name = "personId", nullable = false)
     private Person person;
 
     public Project() {
@@ -58,8 +75,6 @@ public class Project implements Serializable {
         this.link = link;
         this.urlImage = urlImage;
         this.person = person;
-    }
-    
-    
+    }  
     
 }

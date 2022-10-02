@@ -8,29 +8,37 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 @Getter @Setter
 @Entity
+@Table(uniqueConstraints={
+    @UniqueConstraint(columnNames = {"personId", "name"})
+}) 
 public class Skill implements Serializable {
     
-    // Revisar condiciones
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+    
+    @Column(nullable = false)
     private String name;
+    
+    @Column(nullable = false)
     private Integer grade;
     
     @ManyToOne
-    @JoinColumn(name = "personId")
+    @JoinColumn(name = "personId", nullable = false)
     private Person person;
     
     @ManyToOne
-    @JoinColumn(name = "skillTypeId")
+    @JoinColumn(name = "skillTypeId", nullable = false)
     private SkillType skillType;
 
     public Skill() {
