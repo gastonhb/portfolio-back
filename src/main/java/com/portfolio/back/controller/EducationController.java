@@ -8,6 +8,7 @@ import com.portfolio.back.service.IEducationService;
 import com.portfolio.back.service.IPersonService;
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +32,7 @@ public class EducationController {
     private IPersonService personService;
     
     @PostMapping ("/educations")
-    public ResponseEntity<EducationResponseDTO> create (@RequestBody EducationRequestDTO educationRequestDTO){
-        if(educationRequestDTO.getPersonId() == null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<EducationResponseDTO> create (@Valid @RequestBody EducationRequestDTO educationRequestDTO){
         Person person = personService.getById(educationRequestDTO.getPersonId());
         Education education = new Education(
             educationRequestDTO.getTitle(),
@@ -46,7 +44,7 @@ public class EducationController {
         EducationResponseDTO educationResponseDTO = service.create(education);
         return new ResponseEntity<>(educationResponseDTO, HttpStatus.CREATED);
     }
-    
+
     @GetMapping ("/educations")
     @ResponseBody
     public List<EducationResponseDTO> list(@RequestParam(required = false) UUID personId){
@@ -72,9 +70,6 @@ public class EducationController {
     
     @PutMapping ("/educations/{id}")
     public ResponseEntity<EducationResponseDTO> update(@PathVariable UUID id, @RequestBody EducationRequestDTO educationRequestDTO){
-        if(educationRequestDTO.getPersonId() == null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
         Person person = personService.getById(educationRequestDTO.getPersonId());
         Education education = new Education(
             id,

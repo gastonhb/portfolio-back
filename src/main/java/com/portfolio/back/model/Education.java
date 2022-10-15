@@ -30,13 +30,11 @@ public class Education implements Serializable {
     @Column(nullable = false)
     private String institute;
     
-    @Column(nullable = true)
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date startDate;
+    @Column(nullable = false)
+    private Number startDate;
     
     @Column(nullable = true)
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date endDate;
+    private Number endDate;
     
     @Column(columnDefinition = "TEXT", nullable = true)
     private String urlImage;
@@ -48,7 +46,7 @@ public class Education implements Serializable {
     public Education() {
     }
 
-    public Education(UUID id, String title, String institute, Date startDate, Date endDate, String urlImage, Person person) {
+    public Education(UUID id, String title, String institute, Number startDate, Number endDate, String urlImage, Person person) {
         this.id = id;
         this.title = title;
         this.institute = institute;
@@ -58,7 +56,7 @@ public class Education implements Serializable {
         this.person = person;
     }
 
-    public Education(String title, String institute, Date startDate, Date endDate, String urlImage, Person person) {
+    public Education(String title, String institute, Number startDate, Number endDate, String urlImage, Person person) {
         this.title = title;
         this.institute = institute;
         this.startDate = startDate;

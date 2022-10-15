@@ -1,10 +1,12 @@
 package com.portfolio.back.dto;
 
-import java.util.Date;
 import java.util.UUID;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,11 +21,14 @@ public class EducationRequestDTO {
     @NotBlank(message = "Institute is required")
     private String institute;
     
-    @PastOrPresent(message = "StartDate should be in the past")
-    private Date startDate;
+    @Min(value = 1900, message = "StartDate should not be less than 1900")
+    @Max(value = 2500, message = "StartDate should not be greater than 2500")
+    @NotNull(message = "StartDate is required")
+    private Number startDate;
     
-    @PastOrPresent(message = "EndDate should be in the past")
-    private Date endDate;
+    @Min(value = 1900, message = "StartDate should not be less than 1900")
+    @Max(value = 2500, message = "StartDate should not be greater than 2500")
+    private Number endDate;
     
     private String urlImage;
     
