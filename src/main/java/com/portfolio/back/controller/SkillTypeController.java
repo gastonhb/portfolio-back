@@ -4,6 +4,7 @@ import com.portfolio.back.model.SkillType;
 import com.portfolio.back.service.ISkillTypeService;
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class SkillTypeController {
     private ISkillTypeService service;
     
     @PostMapping ("/skill-types")
-    public ResponseEntity<SkillType> create (@RequestBody SkillType skillType){
+    public ResponseEntity<SkillType> create (@Valid @RequestBody SkillType skillType){
          SkillType newSkillType = service.create(skillType);
         return new ResponseEntity<>(newSkillType, HttpStatus.CREATED);
     }
@@ -50,7 +51,7 @@ public class SkillTypeController {
     
     @PutMapping ("/skill-types/{id}")
     public ResponseEntity<SkillType> update(@PathVariable UUID id,
-            @RequestBody SkillType skillType){
+            @Valid @RequestBody SkillType skillType){
         skillType.setId(id);
         SkillType updatedSkillType = service.update(skillType);
         return new ResponseEntity<>(updatedSkillType, HttpStatus.OK);

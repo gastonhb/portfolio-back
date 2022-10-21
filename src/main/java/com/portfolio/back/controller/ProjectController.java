@@ -8,6 +8,7 @@ import com.portfolio.back.service.IPersonService;
 import com.portfolio.back.service.IProjectService;
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +32,7 @@ public class ProjectController {
     private IPersonService personService;
     
     @PostMapping ("/projects")
-    public ResponseEntity<ProjectResponseDTO> create (@RequestBody ProjectRequestDTO projectDTO){
-        if(projectDTO.getPersonId() == null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ProjectResponseDTO> create (@Valid @RequestBody ProjectRequestDTO projectDTO){
         Person person = personService.getById(projectDTO.getPersonId());
         Project project = new Project(
             projectDTO.getName(),
@@ -72,10 +70,8 @@ public class ProjectController {
     }
     
     @PutMapping ("/projects/{id}")
-    public ResponseEntity<ProjectResponseDTO> update(@PathVariable UUID id, @RequestBody ProjectRequestDTO projectDTO){
-        if(projectDTO.getPersonId() == null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ProjectResponseDTO> update(@Valid @PathVariable UUID id, 
+        @RequestBody ProjectRequestDTO projectDTO){
         Person person = personService.getById(projectDTO.getPersonId());
         Project project = new Project(
             id,

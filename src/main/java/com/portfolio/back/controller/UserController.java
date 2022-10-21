@@ -9,6 +9,7 @@ import com.portfolio.back.service.IUserService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
     
     @PostMapping("/users")
-    public ResponseEntity<?> create(@RequestBody UserRequestDTO userRequestDTO){
+    public ResponseEntity<?> create(@Valid @RequestBody UserRequestDTO userRequestDTO){
         if(service.existsByUsername(userRequestDTO.getUsername())) {
             return new ResponseEntity<>("This username already exist.",
                 HttpStatus.BAD_REQUEST);

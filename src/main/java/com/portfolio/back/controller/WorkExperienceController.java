@@ -85,14 +85,6 @@ public class WorkExperienceController {
     
     @PutMapping ("/work-experiences/{id}")
     public ResponseEntity<WorkExperienceResponseDTO> update(@PathVariable UUID id, @RequestBody WorkExperienceRequestDTO workExperienceRequestDTO){
-        if(workExperienceRequestDTO.getPersonId() == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        
-        if(workExperienceRequestDTO.getWorkTimeTypeId() == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        
         Person person = personService.getById(workExperienceRequestDTO.getPersonId());
         WorkTimeType workTimeType = workTimeTypeService.getById(
             workExperienceRequestDTO.getWorkTimeTypeId());

@@ -1,10 +1,11 @@
 package com.portfolio.back.controller;
 
-import com.portfolio.back.dto.PersonDTO;
+import com.portfolio.back.dto.PersonRequestDTO;
 import com.portfolio.back.model.Person;
 import com.portfolio.back.service.IPersonService;
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,17 +25,17 @@ public class PersonController {
     private IPersonService service;
     
     @PostMapping ("/persons")
-    public ResponseEntity<Person> create (@RequestBody PersonDTO personDTO){
+    public ResponseEntity<Person> create (@Valid @RequestBody PersonRequestDTO personRequestDTO){
         Person person = new Person(
-            personDTO.getName(),
-            personDTO.getLastname(),
-            personDTO.getTitle(),
-            personDTO.getAbstracts(),
-            personDTO.getUrlImage(),
-            personDTO.getUrlCoverPhoto()
+            personRequestDTO.getName(),
+            personRequestDTO.getLastname(),
+            personRequestDTO.getTitle(),
+            personRequestDTO.getAbstracts(),
+            personRequestDTO.getUrlImage(),
+            personRequestDTO.getUrlCoverPhoto()
         );
         Person newPerson = service.create(person);
-        return new ResponseEntity<>(newPerson,HttpStatus.CREATED);
+        return new ResponseEntity<>(newPerson, HttpStatus.CREATED);
     }
     
     @GetMapping ("/persons")
@@ -47,7 +48,7 @@ public class PersonController {
     @ResponseBody
     public ResponseEntity<Person> getById(@PathVariable UUID id){
         Person person = service.getById(id);
-        return new ResponseEntity<>(person,HttpStatus.OK);
+        return new ResponseEntity<>(person, HttpStatus.OK);
     }
     
     @DeleteMapping ("/persons/{id}")
@@ -57,15 +58,16 @@ public class PersonController {
     }
     
     @PutMapping ("/persons/{id}")
-    public ResponseEntity<Person> update(@PathVariable UUID id, @RequestBody PersonDTO personDTO){
+    public ResponseEntity<Person> update(@PathVariable UUID id, 
+            @Valid @RequestBody PersonRequestDTO personRequestDTO){
         Person person = new Person(
             id,
-            personDTO.getName(),
-            personDTO.getLastname(),
-            personDTO.getTitle(),
-            personDTO.getAbstracts(),
-            personDTO.getUrlImage(),
-            personDTO.getUrlCoverPhoto()
+            personRequestDTO.getName(),
+            personRequestDTO.getLastname(),
+            personRequestDTO.getTitle(),
+            personRequestDTO.getAbstracts(),
+            personRequestDTO.getUrlImage(),
+            personRequestDTO.getUrlCoverPhoto()
         );
         Person updatedPerson = service.update(person);
         return new ResponseEntity<>(updatedPerson, HttpStatus.OK);

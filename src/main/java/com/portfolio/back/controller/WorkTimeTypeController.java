@@ -4,6 +4,7 @@ import com.portfolio.back.model.WorkTimeType;
 import com.portfolio.back.service.IWorkTimeTypeService;
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class WorkTimeTypeController {
     private IWorkTimeTypeService service;
     
     @PostMapping ("/work-time-types")
-    public ResponseEntity<WorkTimeType> create (@RequestBody WorkTimeType workTimeType){
+    public ResponseEntity<WorkTimeType> create (@Valid @RequestBody WorkTimeType workTimeType){
          WorkTimeType newWorkTimeType = service.create(workTimeType);
         return new ResponseEntity<>(newWorkTimeType, HttpStatus.CREATED);
     }
@@ -50,7 +51,7 @@ public class WorkTimeTypeController {
     
     @PutMapping ("/work-time-types/{id}")
     public ResponseEntity<WorkTimeType> update(@PathVariable UUID id,
-            @RequestBody WorkTimeType workTimeType){
+            @Valid @RequestBody WorkTimeType workTimeType){
         workTimeType.setId(id);
         WorkTimeType updatedWorkTimeType = service.update(workTimeType);
         return new ResponseEntity<>(updatedWorkTimeType, HttpStatus.OK);
