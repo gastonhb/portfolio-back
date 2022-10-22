@@ -59,7 +59,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+
 //        configuration.addAllowedHeader("Access-Control-Allow-Origin");
 //        configuration.addAllowedHeader("Access-Control-Allow-Headers");
 //        configuration.addAllowedHeader("Authorization, x-xsrf-token, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
@@ -68,8 +68,10 @@ public class SecurityConfig {
         //configuration.addExposedHeader("Access-Control-Allow-Origin: *, Authorization, Access-Control-Allow-Headers: *, Origin, Accept, Content-Type, Access-Control-Request-Method: *, Access-Control-Request-Headers: *");
                 //addExposedHeaders("*");
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token", "Access-Control-Allow-Headers", "Access-Control-Allow-Origin"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        configuration.addAllowedOrigin("*");
+        configuration.setAllowCredentials(true);
 //        configuration.addAllowedHeader("Access-Control-Allow-Origin: *");
 //        configuration.addAllowedHeader("Access-Control-Allow-Methods: GET, POST, DELETE, PUT, PATCH, HEAD");
 //        configuration.addAllowedHeader("Access-Control-Allow-Headers: Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
