@@ -47,7 +47,7 @@ public class EducationService implements IEducationService{
 
     @Override
     public List<EducationResponseDTO> list(UUID personId) {
-        List<Education> educations = repository.findAllByPersonIdOrderByStartDateAscIdAsc(personId);
+        List<Education> educations = repository.findAllByPersonIdOrderByStartDateDescIdAsc(personId);
         return this.convertToListResponseDTO(educations);
     }
     
