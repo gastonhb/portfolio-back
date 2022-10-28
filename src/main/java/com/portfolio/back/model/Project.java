@@ -19,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Getter @Setter
 @Entity
 @Table(uniqueConstraints={
-    @UniqueConstraint(columnNames = {"personId", "link"})
+    @UniqueConstraint(columnNames = {"personId", "name"})
 }) 
 public class Project implements Serializable {
     
